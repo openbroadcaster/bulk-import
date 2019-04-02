@@ -121,8 +121,8 @@ OBModules.BulkImport = new function () {
     post.status = $('#bulk_import_settings .status_field').val();
     post.dynamic_select = $('#bulk_import_settings .dynamic_select_field').val();
     
-    post.permission_users  = $('#bulk_import_settings .advanced_permissions_users_field').val();
-    post.permission_groups = $('#bulk_import_settings .advanced_permissions_groups_field').val()
+    post.advanced_permissions_users  = $('#bulk_import_settings .advanced_permissions_users_field').val();
+    post.advanced_permissions_groups = $('#bulk_import_settings .advanced_permissions_groups_field').val()
     
     $.each(OB.Settings.media_metadata, function (index, metadata) {
       post['metadata_' + metadata.name] = 
