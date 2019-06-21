@@ -29,10 +29,23 @@ class BulkImportModel extends OBFModel {
     $json = json_encode($data);
 
     $this->db->where('name', 'bulk_import_settings');
-    $this->db->update('settings', [
-      'name'  => 'bulk_import_settings',
-      'value' => $json
-    ]);
+    $result = $this->db->get_one('settings');
+    
+    if (!$result) {
+      $this->db->insert('settings', [
+        'name'  => 'bulk_import_settings',
+        'value' => $json
+      ]);
+    }
+
+    else 
+    {
+      $this->db->where('name', 'bulk_import_settings');
+      $this->db->update('settings', [
+        'name'  => 'bulk_import_settings',
+        'value' => $json
+      ]);
+    }
 
     return [true, 'Updated bulk import settings.'];
   }
