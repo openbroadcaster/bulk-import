@@ -10,7 +10,12 @@ OBModules.BulkImport = new function () {
 
   this.open = function () {
     OB.UI.replaceMain('modules/bulk_import/bulk_import.html');
+  }
 
+  this.addBulkDirectory = function () {
+    OB.UI.openModalWindow('modules/bulk_import/bulk_import_addedit.html');
+
+    $('#bulk_import_isnew').val('true');
     OBModules.BulkImport.getMediaForm('Imported Media Settings');
   }
 
@@ -19,9 +24,10 @@ OBModules.BulkImport = new function () {
     OB.Media.mediaAddeditForm(1, header);
     $('.copy_to_all').hide();
     $('.new_media_only').hide();
+    $('#bulk_import_settings .addedit_form_legend legend').hide();
     $('.title_field').val('<import filename>').prop('disabled', true);
 
-    OB.API.post('bulkimport', 'load_settings', {}, function (response) {      
+    OB.API.post('bulkimport', 'load_settings', {}, function (response) {
       $.each(response.data.directories, function (key, dir) {
         $('#bulk_import_' + key).val(dir);
       });
@@ -129,8 +135,9 @@ OBModules.BulkImport = new function () {
 
     OB.API.post('bulkimport', 'update_settings', post, function (response) {
       if (!response.status) {
-        $('#bulk_import_message').obWidget('error', response.msg);
+        $('#bulk_import_addedit_message').obWidget('error', response.msg);
       } else {
+        OB.UI.closeModalWindow();
         $('#bulk_import_message').obWidget('success', response.msg);
       }
     });

@@ -2,25 +2,24 @@
 
 <obwidget type="message" id="bulk_import_message"></obwidget>
 
-<h2>Options</h2>
+<h2>Directories</h2>
 
 <fieldset id="bulk_import_settings">
   <div class="fieldrow">
-    <label>Media Import Directory</label>
-    <input id="bulk_import_dir_source" type="text">
-  </div>
-  <div class="fieldrow">
-    <label>Failed Media Directory</label>
-    <input id="bulk_import_dir_failed" type="text">
-  </div>
-  <div class="fieldrow">
-    <label>Success Media Directory</label>
-    <input id="bulk_import_dir_target" type="text">
+    <table id="bulk_import_directories">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Source Location</th>
+          <th>[x]</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </div>
 
-  <div id="media_data_middle"></div>
-
   <div class="fieldrow">
-    <button class="add" onclick="OBModules.BulkImport.updateSettings()">Update Settings</button>
+    <button class="add" onclick="OBModules.BulkImport.addBulkDirectory()">Add Directory</button>
   </div>
 </fieldset>
