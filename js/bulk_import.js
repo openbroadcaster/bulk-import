@@ -10,16 +10,59 @@ OBModules.BulkImport = new function () {
 
   this.open = function () {
     OB.UI.replaceMain('modules/bulk_import/bulk_import.html');
+
+    OBModules.BulkImport.loadOverview();
+  }
+
+  this.loadOverview = function () {
+    OB.API.post('bulkimport', 'load_overview', {}, function (response) {
+      $('#bulk_import_directories tbody').empty();
+
+      $.each(response.data, function (key, dir) {
+        var $row = $('<tr/>').attr('data-id', dir.id);
+        $row.append($('<td/>').html(dir.name));
+        $row.append($('<td/>').html(dir.dir_source));
+        $row.append($('<td/>').html('<button class="edit" onclick="OBModules.BulkImport.editBulkDirectory(' + dir.id + ')">Edit</button><button class="delete" onclick="OBModules.BulkImport.deleteBulkDirectory(' + dir.id + ')">Delete</button>'));
+        $('#bulk_import_directories tbody').append($row);
+      });
+    });
   }
 
   this.addBulkDirectory = function () {
     OB.UI.openModalWindow('modules/bulk_import/bulk_import_addedit.html');
 
     $('#bulk_import_isnew').val('true');
-    OBModules.BulkImport.getMediaForm('Imported Media Settings');
+    OBModules.BulkImport.getMediaForm('Imported Media Settings', null);
   }
 
-  this.getMediaForm = function (header) {
+  this.editBulkDirectory = function (id) {
+    OB.UI.openModalWindow('modules/bulk_import/bulk_import_addedit.html');
+
+    $('#bulk_import_isnew').val('false');
+    $('#bulk_import_id').val(id);
+    OBModules.BulkImport.getMediaForm('Imported Media Settings', id);
+  }
+
+  this.deleteBulkDirectory = function (id) {
+    OB.UI.confirm({
+      text: "Are you sure you want to delete this bulk import directory?",
+      okay_class: "delete",
+      callback: function () {
+        OBModules.BulkImport.deleteBulkDirectoryConfirm(id);
+      }
+    });
+  }
+
+  this.deleteBulkDirectoryConfirm = function (id) {
+    OB.API.post('bulkimport', 'delete_settings', {id: id}, function (response) {
+      var msg_result = (response.status ? 'success' : 'error');
+      $('#bulk_import_message').obWidget(msg_result, response.msg);
+
+      OBModules.BulkImport.loadOverview();
+    });
+  }
+
+  this.getMediaForm = function (header, id) {
     $('#media_data_middle').after(OB.UI.getHTML('media/addedit_metadata.html'));
     OB.Media.mediaAddeditForm(1, header);
     $('.copy_to_all').hide();
@@ -27,65 +70,68 @@ OBModules.BulkImport = new function () {
     $('#bulk_import_settings .addedit_form_legend legend').hide();
     $('.title_field').val('<import filename>').prop('disabled', true);
 
-    OB.API.post('bulkimport', 'load_settings', {}, function (response) {
-      $.each(response.data.directories, function (key, dir) {
-        $('#bulk_import_' + key).val(dir);
-      });
+    if (id != null) {
+      OB.API.post('bulkimport', 'load_settings', {id: id}, function (response) {
+        $('#bulk_import_name').val(response.data.name);
+        $('#bulk_import_dir_source').val(response.data.dir_source);
+        $('#bulk_import_dir_failed').val(response.data.dir_failed);
+        $('#bulk_import_dir_target').val(response.data.dir_target);
 
-      $.each(response.data.settings, function (key, setting) {
-        switch (key) {
-          case 'artist':
-            $('#bulk_import_settings .artist_field').val(setting);
-            break;
-          case 'album':
-            $('#bulk_import_settings .album_field').val(setting);
-            break;
-          case 'year':
-            $('#bulk_import_settings .year_field').val(setting);
-            break;
-          case 'category_id':
-            $('#bulk_import_settings .category_field').val(setting);
-            OB.Media.updateGenreList(1);
-            $('#bulk_import_settings .genre_field').val(response.data.settings.genre_id);
-            break;
-          case 'country_id':
-            $('#bulk_import_settings .country_field').val(setting);
-            break;
-          case 'language_id':
-            $('#bulk_import_settings .language_field').val(setting);
-            break;
-          case 'comments':
-            $('#bulk_import_settings .comments_field').val(setting);
-            break;
-          case 'is_copyright_owner':
-            $('#bulk_import_settings .copyright_field').val(setting);
-            break;
-          case 'is_public':
-            $('#bulk_import_settings .public_field').val(setting);
-            break;
-          case 'is_approved':
-            $('#bulk_import_settings .approved_field').val(setting);
-            break;
-          case 'status':
-            $('#bulk_import_settings .status_field').val(setting);
-            break;
-          case 'dynamic_select':
-            $('#bulk_import_settings .dynamic_select_field').val(setting);
-            break;
-          case 'permission_users':
-            $('#bulk_import_settings .advanced_permissions_users_field').val(setting);
-            break;
-          case 'permission_groups':
-            $('#bulk_import_settings .advanced_permissions_groups_field').val(setting);
-            break;
-          default:
-            if (key.startsWith('metadata')) {
-              $('#bulk_import_settings .' + key + '_field').val(setting);
-            }
-            break;
-        }
+        $.each(JSON.parse(response.data.settings), function (key, setting) {
+          switch (key) {
+            case 'artist':
+              $('#bulk_import_settings .artist_field').val(setting);
+              break;
+            case 'album':
+              $('#bulk_import_settings .album_field').val(setting);
+              break;
+            case 'year':
+              $('#bulk_import_settings .year_field').val(setting);
+              break;
+            case 'category_id':
+              $('#bulk_import_settings .category_field').val(setting);
+              OB.Media.updateGenreList(1);
+              $('#bulk_import_settings .genre_field').val(response.data.settings.genre_id);
+              break;
+            case 'country_id':
+              $('#bulk_import_settings .country_field').val(setting);
+              break;
+            case 'language_id':
+              $('#bulk_import_settings .language_field').val(setting);
+              break;
+            case 'comments':
+              $('#bulk_import_settings .comments_field').val(setting);
+              break;
+            case 'is_copyright_owner':
+              $('#bulk_import_settings .copyright_field').val(setting);
+              break;
+            case 'is_public':
+              $('#bulk_import_settings .public_field').val(setting);
+              break;
+            case 'is_approved':
+              $('#bulk_import_settings .approved_field').val(setting);
+              break;
+            case 'status':
+              $('#bulk_import_settings .status_field').val(setting);
+              break;
+            case 'dynamic_select':
+              $('#bulk_import_settings .dynamic_select_field').val(setting);
+              break;
+            case 'permission_users':
+              $('#bulk_import_settings .advanced_permissions_users_field').val(setting);
+              break;
+            case 'permission_groups':
+              $('#bulk_import_settings .advanced_permissions_groups_field').val(setting);
+              break;
+            default:
+              if (key.startsWith('metadata')) {
+                $('#bulk_import_settings .' + key + '_field').val(setting);
+              }
+              break;
+          }
+        });
       });
-    });
+    }
   }
 
   this.updateSettings = function () {
@@ -93,6 +139,9 @@ OBModules.BulkImport = new function () {
     post.dir_source = $('#bulk_import_dir_source').val();
     post.dir_failed = $('#bulk_import_dir_failed').val();
     post.dir_target = $('#bulk_import_dir_target').val();
+    post.isnew      = $('#bulk_import_isnew').val();
+    post.id         = $('#bulk_import_id').val();
+    post.name       = $('#bulk_import_name').val();
 
     if ($('#bulk_import_settings .artist_field').is(':visible')) {
       post.artist = $('#bulk_import_settings .artist_field').val();
@@ -138,6 +187,7 @@ OBModules.BulkImport = new function () {
         $('#bulk_import_addedit_message').obWidget('error', response.msg);
       } else {
         OB.UI.closeModalWindow();
+        OBModules.BulkImport.loadOverview();
         $('#bulk_import_message').obWidget('success', response.msg);
       }
     });
