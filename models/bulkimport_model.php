@@ -42,11 +42,12 @@ class BulkImportModel extends OBFModel {
   public function update_settings ($data) {
     $json   = json_encode($data['settings']);
     $fields = [
-      'name'       => htmlspecialchars($data['name']),
-      'dir_source' => $data['directories']['dir_source'],
-      'dir_failed' => $data['directories']['dir_failed'],
-      'dir_target' => $data['directories']['dir_target'],
-      'settings'   => $json
+      'name'        => htmlspecialchars($data['name']),
+      'description' => htmlspecialchars($data['description']),
+      'dir_source'  => $data['directories']['dir_source'],
+      'dir_failed'  => $data['directories']['dir_failed'],
+      'dir_target'  => $data['directories']['dir_target'],
+      'settings'    => $json
     ];
 
     if ($data['isnew'] != 'true') {

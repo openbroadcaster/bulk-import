@@ -3,24 +3,35 @@
   max-width: 1200px;
 }
 
-#bulk_import_directories tr {
+#bulk_import_directories tbody tr {
   padding-bottom: 6px;
-  height: 28px;
+  height: 60px;
+  padding-top: 6px;
 }
 
 #bulk_import_directories td, #bulk_import_directories th {
   padding-right: 8px;
-  max-width: 500px;
+  max-width: 400px;
 }
 
+/* This needs to be streamlined at some point. Just a quick CSS mock-up for now. */
 #bulk_import_directories th:first-child, #bulk_import_directories td:first-child {
   text-align: left;
-  width: 200px;
+  width: 150px;
 }
 
 #bulk_import_directories th:nth-child(2), #bulk_import_directories td:nth-child(2) {
   text-align: left;
-  width: 500px;
+  width: 300px;
+}
+
+#bulk_import_directories th:nth-child(3), #bulk_import_directories td:nth-child(3) {
+  text-align: left;
+  width: 300px;
+}
+
+#bulk_import_directories span {
+  white-space: nowrap;
 }
 
 #bulk_import_settings .addedit_form_legend {

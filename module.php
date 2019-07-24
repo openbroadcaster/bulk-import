@@ -19,6 +19,7 @@ class BulkImportModule extends OBFModule {
     $this->db->query('CREATE TABLE IF NOT EXISTS `module_bulk_import` (
       `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
       `name` varchar(255) NOT NULL,
+      `description` text,
       `dir_source` varchar(255) NOT NULL,
       `dir_failed` varchar(255) NOT NULL,
       `dir_target` varchar(255) NOT NULL,

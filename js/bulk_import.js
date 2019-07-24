@@ -22,7 +22,8 @@ OBModules.BulkImport = new function () {
         var $row = $('<tr/>').attr('data-id', dir.id);
         $row.append($('<td/>').html(dir.name));
         $row.append($('<td/>').html(dir.dir_source));
-        $row.append($('<td/>').html('<button class="edit" onclick="OBModules.BulkImport.editBulkDirectory(' + dir.id + ')">Edit</button><button class="delete" onclick="OBModules.BulkImport.deleteBulkDirectory(' + dir.id + ')">Delete</button>'));
+        $row.append($('<td/>').html(dir.description));
+        $row.append($('<td/>').html('<span><button class="edit" onclick="OBModules.BulkImport.editBulkDirectory(' + dir.id + ')">Edit</button><button class="delete" onclick="OBModules.BulkImport.deleteBulkDirectory(' + dir.id + ')">Delete</button></span>'));
         $('#bulk_import_directories tbody').append($row);
       });
     });
@@ -73,6 +74,7 @@ OBModules.BulkImport = new function () {
     if (id != null) {
       OB.API.post('bulkimport', 'load_settings', {id: id}, function (response) {
         $('#bulk_import_name').val(response.data.name);
+        $('#bulk_import_description').val(response.data.description);
         $('#bulk_import_dir_source').val(response.data.dir_source);
         $('#bulk_import_dir_failed').val(response.data.dir_failed);
         $('#bulk_import_dir_target').val(response.data.dir_target);
@@ -136,12 +138,13 @@ OBModules.BulkImport = new function () {
 
   this.updateSettings = function () {
     var post = {};
-    post.dir_source = $('#bulk_import_dir_source').val();
-    post.dir_failed = $('#bulk_import_dir_failed').val();
-    post.dir_target = $('#bulk_import_dir_target').val();
-    post.isnew      = $('#bulk_import_isnew').val();
-    post.id         = $('#bulk_import_id').val();
-    post.name       = $('#bulk_import_name').val();
+    post.dir_source  = $('#bulk_import_dir_source').val();
+    post.dir_failed  = $('#bulk_import_dir_failed').val();
+    post.dir_target  = $('#bulk_import_dir_target').val();
+    post.isnew       = $('#bulk_import_isnew').val();
+    post.id          = $('#bulk_import_id').val();
+    post.name        = $('#bulk_import_name').val();
+    post.description = $('#bulk_import_description').val();
 
     if ($('#bulk_import_settings .artist_field').is(':visible')) {
       post.artist = $('#bulk_import_settings .artist_field').val();

@@ -15,7 +15,8 @@ class BulkImport extends OBFController {
           $key == 'dir_target' ||
           $key == 'isnew' ||
           $key == 'id' ||
-          $key == 'name' ) {
+          $key == 'name' ||
+          $key == 'description' ) {
         continue;
       }
 
@@ -24,6 +25,7 @@ class BulkImport extends OBFController {
 
     $data = array(
       'name'        => $this->data['name'],
+      'description' => $this->data['description'],
       'id'          => $this->data['id'],
       'directories' => array(
         'dir_source'  => $this->data['dir_source'],
