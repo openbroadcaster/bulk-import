@@ -24,6 +24,7 @@ class BulkImportModule extends OBFModule {
       `dir_failed` varchar(255) NOT NULL,
       `dir_target` varchar(255) NOT NULL,
       `settings` text,
+      `id3` text
       PRIMARY KEY (`id`)
     ) ENGINE MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 

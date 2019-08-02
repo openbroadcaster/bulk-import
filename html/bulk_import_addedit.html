@@ -27,6 +27,14 @@
   <div id="media_data_middle"></div>
 
   <div class="fieldrow">
+    <label>Use ID3 When Available</label>
+    Artist <input type="checkbox" id="bulk_import_id3_artist">&nbsp;
+    Album <input type="checkbox" id="bulk_import_id3_album">&nbsp;
+    Title <input type="checkbox" id="bulk_import_id3_title">&nbsp;
+    Comments <input type="checkbox" id="bulk_import_id3_comments">&nbsp;
+  </div>
+
+  <div class="fieldrow">
     <input type="hidden" id="bulk_import_isnew" value="false">
     <input type="hidden" id="bulk_import_id">
     <button class="add" onclick="OBModules.BulkImport.updateSettings();">Save Settings</button>

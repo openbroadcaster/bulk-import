@@ -79,6 +79,10 @@ OBModules.BulkImport = new function () {
         $('#bulk_import_dir_failed').val(response.data.dir_failed);
         $('#bulk_import_dir_target').val(response.data.dir_target);
 
+        $.each(JSON.parse(response.data.id3), function (key, value) {
+          $('#bulk_import_id3_' + key).prop('checked', value);
+        });
+
         $.each(JSON.parse(response.data.settings), function (key, setting) {
           switch (key) {
             case 'artist':
@@ -179,6 +183,11 @@ OBModules.BulkImport = new function () {
 
     post.advanced_permissions_users  = $('#bulk_import_settings .advanced_permissions_users_field').val();
     post.advanced_permissions_groups = $('#bulk_import_settings .advanced_permissions_groups_field').val()
+
+    post.id3_artist   = $('#bulk_import_id3_artist').is(':checked');
+    post.id3_album    = $('#bulk_import_id3_album').is(':checked');
+    post.id3_title    = $('#bulk_import_id3_title').is(':checked');
+    post.id3_comments = $('#bulk_import_id3_comments').is(':checked');
 
     $.each(OB.Settings.media_metadata, function (index, metadata) {
       post['metadata_' + metadata.name] =

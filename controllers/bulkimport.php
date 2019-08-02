@@ -16,7 +16,9 @@ class BulkImport extends OBFController {
           $key == 'isnew' ||
           $key == 'id' ||
           $key == 'name' ||
-          $key == 'description' ) {
+          $key == 'description' ||
+          $key == 'id3_title' || $key == 'id3_album' ||
+          $key == 'id3_artist' || $key == 'id3_comments' ) {
         continue;
       }
 
@@ -33,7 +35,13 @@ class BulkImport extends OBFController {
         'dir_target'  => $this->data['dir_target']
       ),
       'settings'    => $settings,
-      'isnew'       => $this->data['isnew']
+      'isnew'       => $this->data['isnew'],
+      'id3'         => array(
+        'artist'      => $this->data['id3_artist'],
+        'album'       => $this->data['id3_album'],
+        'title'       => $this->data['id3_title'],
+        'comments'    => $this->data['id3_comments']
+      )
     );
 
     $result = $this->model('validate_settings', $data);
