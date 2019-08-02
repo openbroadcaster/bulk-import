@@ -79,10 +79,6 @@ OBModules.BulkImport = new function () {
         $('#bulk_import_dir_failed').val(response.data.dir_failed);
         $('#bulk_import_dir_target').val(response.data.dir_target);
 
-        $.each(JSON.parse(response.data.id3), function (key, value) {
-          $('#bulk_import_id3_' + key).prop('checked', value);
-        });
-
         $.each(JSON.parse(response.data.settings), function (key, setting) {
           switch (key) {
             case 'artist':
@@ -135,6 +131,10 @@ OBModules.BulkImport = new function () {
               }
               break;
           }
+        });
+
+        $.each(JSON.parse(response.data.id3), function (key, value) {
+          $('#bulk_import_id3_' + key).prop('checked', value);
         });
       });
     }

@@ -69,6 +69,14 @@ foreach ($bulk_settings[2] as $setting) {
       $item[$field] = $value;
     }
 
+    // replace with ID3 fields depending on setting.
+    $id3 = $media_model('getid3', $src);
+    foreach (json_decode($setting['id3']) as $field => $use_id3) {
+      if ($use_id3 && isset($id3[$field])) {
+        $item[$field] = $id3[$field][0];
+      }
+    }
+
     $valid = $media_model('validate', $item);
     if (!$valid[0]) {
       echo "Validation error: " . $valid[2] . "\n";
