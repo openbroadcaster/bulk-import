@@ -17,16 +17,16 @@ class BulkImportModule extends OBFModule {
     ]);
 
     $this->db->query('CREATE TABLE IF NOT EXISTS `module_bulk_import` (
-      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+      `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
       `name` varchar(255) NOT NULL,
       `description` text,
       `dir_source` varchar(255) NOT NULL,
       `dir_failed` varchar(255) NOT NULL,
       `dir_target` varchar(255) NOT NULL,
       `settings` text,
-      `id3` text
+      `id3` text,
       PRIMARY KEY (`id`)
-    ) ENGINE MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;');
 
     return true;
   }
