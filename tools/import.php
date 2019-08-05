@@ -87,13 +87,31 @@ foreach ($bulk_settings[2] as $setting) {
     }
 
     $media_id = $media_model('save', $item);
+    $title    = pathinfo($src, PATHINFO_FILENAME);
+    $ext      = pathinfo($src, PATHINFO_EXTENSION);
     if (!$media_id) {
-      rename($src, $setting['dir_failed'] . "/" . $fn);
+      if (file_exists($setting['dir_failed'] . "/" . $fn)) {
+        $i = 1;
+        while (file_exists($setting['dir_failed'] . "/" . $title . "." . $i . "." . $ext)) {
+          $i++;
+        }
+        rename($src, $setting['dir_failed'] . "/" . $title . "." . $i . "." . $ext);
+      } else {
+        rename($src, $setting['dir_failed'] . "/" . $fn);
+      }
       cleanup_uploads($file_id);
       continue;
     }
 
-    rename($src, $setting['dir_target'] . "/" . $fn);
+    if (file_exists($setting['dir_target'] . "/" . $fn)) {
+      $i = 1;
+      while (file_exists($setting['dir_target'] . "/" . $title . "." . $i . "." . $ext)) {
+        $i++;
+      }
+      rename($src, $setting['dir_target'] . "/" . $title . "." . $i . "." . $ext);
+    } else {
+      rename($src, $setting['dir_target'] . "/" . $fn);
+    }
     echo "[" . $setting['name'] . "] Processed file: " . $fn . "\n";
     cleanup_uploads($file_id);
   }
