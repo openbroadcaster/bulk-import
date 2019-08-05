@@ -16,6 +16,14 @@ class BulkImportModel extends OBFModel {
       return [false, "Target directory isn't writable by server."];
     }
 
+    if (!isset($data['owner_id'][0])) {
+      return [false, "Owner ID required for imported media."];
+    }
+    $user_model = $this->load->model('Users');
+    if (!$user_model('get_by_id', $data['owner_id'][0])) {
+      return [false, 'Failed to find owner ID in database.'];
+    }
+
     if ($data['isnew'] != 'true') {
       if (empty($data['id'])) return [false, "No ID given for updating directory settings."];
 
@@ -49,7 +57,8 @@ class BulkImportModel extends OBFModel {
       'dir_failed'  => $data['directories']['dir_failed'],
       'dir_target'  => $data['directories']['dir_target'],
       'settings'    => $json,
-      'id3'         => $id3
+      'id3'         => $id3,
+      'owner_id'    => $data['owner_id'][0]
     ];
 
     if ($data['isnew'] != 'true') {

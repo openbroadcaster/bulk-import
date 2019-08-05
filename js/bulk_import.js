@@ -78,6 +78,7 @@ OBModules.BulkImport = new function () {
         $('#bulk_import_dir_source').val(response.data.dir_source);
         $('#bulk_import_dir_failed').val(response.data.dir_failed);
         $('#bulk_import_dir_target').val(response.data.dir_target);
+        $('#bulk_import_owner').val([response.data.owner_id]);
 
         $.each(JSON.parse(response.data.settings), function (key, setting) {
           switch (key) {
@@ -149,6 +150,7 @@ OBModules.BulkImport = new function () {
     post.id          = $('#bulk_import_id').val();
     post.name        = $('#bulk_import_name').val();
     post.description = $('#bulk_import_description').val();
+    post.owner_id    = $('#bulk_import_owner').val();
 
     if ($('#bulk_import_settings .artist_field').is(':visible')) {
       post.artist = $('#bulk_import_settings .artist_field').val();

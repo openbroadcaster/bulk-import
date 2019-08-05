@@ -25,6 +25,7 @@ class BulkImportModule extends OBFModule {
       `dir_target` varchar(255) NOT NULL,
       `settings` text,
       `id3` text,
+      `owner_id` int(10) UNSIGNED NOT NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;');
 

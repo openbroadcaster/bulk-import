@@ -63,7 +63,8 @@ foreach ($bulk_settings[2] as $setting) {
       'file_id'   => $file_id,
       'file_info' => $info,
       'title'     => pathinfo($src, PATHINFO_FILENAME),
-      'local_id'  => 1
+      'local_id'  => 1,
+      'owner_id'  => $setting['owner_id']
     );
     foreach (json_decode($setting['settings']) as $field => $value) {
       $item[$field] = $value;
