@@ -38,6 +38,11 @@ foreach ($bulk_settings[2] as $setting) {
     $expiry = time() + 86400;
     $key    = bin2hex(openssl_random_pseudo_bytes(16));
 
+    if (file_exists($setting['dir_source'] . "/.locks/" . $fn . ".lock")) {
+      echo "File is locked. Skipping for now.\n";
+      continue;
+    }
+
     $file_id = $db->insert('uploads', array(
       'key'      => $key,
       'expiry'   => $expiry,
