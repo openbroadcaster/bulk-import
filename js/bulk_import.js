@@ -5,7 +5,7 @@ OBModules.BulkImport = new function () {
 
   this.initMenu = function () {
     OB.UI.addSubMenuItem('admin', 'Bulk Import', 'bulk_import',
-                         OBModules.BulkImport.open, 152);
+                         OBModules.BulkImport.open, 152, 'bulk_import_module');
   }
 
   this.open = function () {

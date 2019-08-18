@@ -12,7 +12,7 @@ class BulkImportModule extends OBFModule {
   public function install () {
     $this->db->insert('users_permissions', [
       'category'    => 'administration',
-      'description' => 'import bulk media items',
+      'description' => 'manage bulk import settings',
       'name'        => 'bulk_import_module'
     ]);
 
