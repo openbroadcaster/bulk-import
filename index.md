@@ -13,9 +13,9 @@ title: index
 
 Bulk Import
 
-Create multiple filters and watch folders
+Create multiple filters and Watch folders
 
-Import entire media librarys and metadata
+Ingest entire media librarys and metadata
 
 Watch Folders
 
@@ -23,7 +23,7 @@ Watch Folders
 
 ![ Bulk Import Settings](img/bulk-import-settings.png ){: .screenshot}
 
-Bulk Import settings and watch folder setup
+Bulk Import settings and Watch folder setup
 
 <br/>
 
