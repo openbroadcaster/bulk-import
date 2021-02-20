@@ -34,12 +34,12 @@ class BulkImportModel extends OBFModel {
       }
     }
 
-    $media_model = $this->load->model('Media');
+    $models = OBFModels::get_instance();
     $settings = $data['settings'];
     $settings['local_id'] = 1;
     $settings['title'] = 'undefined';
 
-    $valid = $media_model('validate', $settings, true);
+    $valid = $models->media('validate', ['item' => $settings, 'skip_upload_check' => true]);
     if (!$valid[0]) {
       return [false, $valid[2]];
     }

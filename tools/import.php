@@ -4,12 +4,10 @@ if (php_sapi_name() !== 'cli') exit();
 
 require('../../../components.php');
 
-$load = OBFLoad::get_instance();
-$db   = OBFDB::get_instance();
+$db     = OBFDB::get_instance();
+$models = OBFModels::get_instance();
 
-$media_model   = $load->model('media');
-$bulk_model    = $load->model('BulkImport');
-$bulk_settings = $bulk_model('load_overview');
+$bulk_settings = $models->BulkImport('load_overview');
 
 if (!$bulk_settings[0]) {
   exit($bulk_settings[1]);
@@ -34,7 +32,7 @@ foreach ($bulk_settings[2] as $setting) {
 
     $src    = $file->getPathname();
     $fn     = $file->getFilename();
-    $info   = $media_model('media_info', $src);
+    $info   = $models->media('media_info', ['filename' => $src]);
     $expiry = time() + 86400;
     $key    = bin2hex(openssl_random_pseudo_bytes(16));
 
@@ -76,14 +74,14 @@ foreach ($bulk_settings[2] as $setting) {
     }
 
     // replace with ID3 fields depending on setting.
-    $id3 = $media_model('getid3', $src);
+    $id3 = $models->media('getid3', ['filename' => $src]);
     foreach (json_decode($setting['id3']) as $field => $use_id3) {
       if ($use_id3 && isset($id3[$field])) {
         $item[$field] = $id3[$field][0];
       }
     }
 
-    $valid = $media_model('validate', $item);
+    $valid = $models->media('validate', ['item' => $item]);
     if (!$valid[0]) {
       echo "Validation error: " . $valid[2] . "\n";
       rename($src, $setting['dir_failed'] . "/" . $fn);
@@ -91,7 +89,7 @@ foreach ($bulk_settings[2] as $setting) {
       continue;
     }
 
-    $media_id = $media_model('save', $item);
+    $media_id = $models->media('save', ['item' => $item]);
     $title    = pathinfo($src, PATHINFO_FILENAME);
     $ext      = pathinfo($src, PATHINFO_EXTENSION);
     if (!$media_id) {
