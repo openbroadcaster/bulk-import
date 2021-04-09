@@ -2,7 +2,7 @@
 
 class BulkImportModule extends OBFModule {
 
-  public $name        = "Bulk Import v0.1";
+  public $name        = "Bulk Import v1.0";
   public $description = "Imports bulk media items from predetermined folders.";
 
   public function callbacks () {
