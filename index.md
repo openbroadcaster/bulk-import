@@ -3,10 +3,10 @@ layout: default
 title: index
 ---
 
-* TOC
-{:toc}
+# Bulk Import
+{:.no_toc}
 
-## Bulk Import
+* TOC
 {:toc}
 
 ![ Bulk Import](img/bulk-import-folders.png ){: .screenshot}
@@ -27,5 +27,4 @@ Filter setup
 
 Watch folder setup
 
-<br/>
 
