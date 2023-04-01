@@ -3,9 +3,7 @@ layout: default
 title: index
 ---
 
-<br/>
-
-![ Bulk Import](img/bulk-import-folders.png ){: .screenshot}
+![ Bulk Import](img/bulk-import.png ){: .screenshot}
 
 # Bulk Import
 {:.no_toc}
@@ -13,18 +11,14 @@ title: index
 * TOC
 {:toc}
 
-Bulk Import enables importing large libraries in a batch retaining metadata.
+![ Bulk Import](img/bulk-import-folders.png ){: .screenshot}
 
-Create multiple filters and Watch folders
-
-Ingest entire media libraries and metadata
-
-<br/>
+Bulk Import enables importing ingest large media libraries in a batch retaining metadata. 
 
 ![ Bulk Import Settings](img/bulk-import-settings.png ){: .screenshot}
 
 ## Bulk Import settings
 
-Filter setup
+Configure filter 
 
 Watch folder setup
