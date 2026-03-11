@@ -4,8 +4,8 @@ if (php_sapi_name() !== 'cli') exit();
 
 require('../../../components.php');
 
-$db     = \OBFDB::get_instance();
-$models = \OBFModels::get_instance();
+$db     = OBFDB::get_instance();
+$models = OBFModels::get_instance();
 
 $bulk_settings = $models->BulkImport('load_overview');
 
@@ -13,7 +13,7 @@ if (!$bulk_settings[0]) {
   exit($bulk_settings[1]);
 }
 
-if (!is_writable(OB_UPLOADS)) {
+if (!is_writable(OB_ASSETS .'/uploads')) {
   exit("Uploads directory isn't writable.");
 }
 
@@ -55,7 +55,7 @@ foreach ($bulk_settings[2] as $setting) {
       continue;
     }
 
-    $tgt = OB_UPLOADS . '/' . $file_id;
+    $tgt = OB_ASSETS . '/uploads/' . $file_id;
     if (!copy($src, $tgt)) {
       rename($src, $setting['dir_failed'] . "/" . $fn);
       cleanup_uploads($file_id);
@@ -125,5 +125,5 @@ function cleanup_uploads ($file_id) {
   $db->where('id', $file_id);
   $db->delete('uploads');
 
-  @unlink(OB_UPLOADS . '/' . $file_id);
+  @unlink(OB_ASSETS . '/uploads/' . $file_id);
 }

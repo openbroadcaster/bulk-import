@@ -1,8 +1,6 @@
 <?php
 
-use OpenBroadcaster\Base\Module;
-
-class BulkImportModule extends Module {
+class BulkImportModule extends OBFModule {
 
   public $name        = "Bulk Import v1.0";
   public $description = "Imports bulk media items from predetermined folders.";
