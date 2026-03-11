@@ -1,6 +1,8 @@
 <?php
 
-class BulkImport extends OBFController {
+use OpenBroadcaster\Base\Controller;
+
+class BulkImport extends Controller {
   public function __construct () {
     parent::__construct();
     $this->model = $this->load->model('BulkImport');

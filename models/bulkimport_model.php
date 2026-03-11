@@ -1,6 +1,8 @@
 <?php
 
-class BulkImportModel extends OBFModel {
+use OpenBroadcaster\Base\Model;
+
+class BulkImportModel extends Model {
   public function validate_settings ($data) {
     if (empty($data['name'])) {
       return [false, "Name cannot be an empty string."];
